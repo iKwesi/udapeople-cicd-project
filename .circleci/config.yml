@@ -191,8 +191,8 @@ jobs:
           name: Install dependencies
           command: |
             apk add --update --no-cache tar gzip ansible aws-cli
-      restore_cache:
-        keys: [backend-build]
+      - restore_cache:
+          keys: [backend-build]
       - run:
           name: Configure server
           command: |
