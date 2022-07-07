@@ -181,7 +181,7 @@ jobs:
 
   configure-infrastructure:
     docker:
-      - image: python:3.7-alpine3.11
+      - image: python:3.10-alpine3.16
     steps:
       - checkout
       - add_ssh_keys:
@@ -231,6 +231,10 @@ jobs:
           command: |
             cd backend
             npm install
+            npm update mkdirp --depth 6
+            npm install --save-dev webpack@5.73.0
+            npm audit fix --audit-level=critical --force
+            npm audit --audit-level=critical
             # npm run build
             # run and save migration output
             npm run migrations > migrations_dump.txt
