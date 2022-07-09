@@ -289,13 +289,15 @@ jobs:
       - add_ssh_keys:
           fingerprints: ["1a:84:55:8c:cd:5c:35:93:9c:c8:98:9a:50:41:e2:8b"]
       # attach workspace
-      - attach_workspace:
-          at: ~/
+      - restore_cache:
+          keys: [backend-build]
       - run:
           name: Install dependencies
           command: |
             # apk add --update --no-cache tar curl rsync gzip ansible aws-cli openssh nodejs npm curl
             apk add --update --no-cache tar gzip nodejs npm tree aws-cli ansible
+      - attach_workspace:
+          at: ~/
       - run:
           name: Deploy backend
           command: |
