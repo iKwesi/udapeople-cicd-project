@@ -1,1 +1,8 @@
-URL02 (S3 bucket): http://udapeople-b1fbf1d.s3-website-us-east-1.amazonaws.com/
+URL01 (Github link):
+https://github.com/iKwesi/udapeople-cicd-project
+
+URL02 (S3 bucket):
+http://udapeople-dd2f594.s3-website-us-east-1.amazonaws.com
+
+#CloudFront:
+d3cf2fyfkkxcko.cloudfront.net
