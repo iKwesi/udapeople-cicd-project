@@ -330,6 +330,32 @@ jobs:
           workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}
       - revert-migrations:
           workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}
+  
+  prometheus-node-exporter:
+    docker:
+      - image: python:3.10-alpine3.16
+    steps:
+      - checkout
+      - add_ssh_keys:
+          fingerprints: ["1a:84:55:8c:cd:5c:35:93:9c:c8:98:9a:50:41:e2:8b"]
+      - run:
+          name: Install deps
+          command: |
+            apk add --update aws-cli tar gzip ansible nodejs npm
+      # - restore_cache:
+      #     keys: [backend-build]
+      - attach_workspace:
+          at: ~/
+      - run:
+          name: Setup Prometheus node-exporter
+          command: |
+            cat inventory.txt
+            ansible-playbook -i inventory.txt prom-node-exporter.yml 
+      - destroy-environment:
+          workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}
+      - revert-migrations:
+          workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}
+            
   smoke-test:
     docker:
       # Lightweight Docker image
@@ -484,4 +510,6 @@ workflows:
       - cloudfront-update:
           requires: [smoke-test]
       - cleanup:
-          requires: [cloudfront-update]
+          requires: [cloudfront-update] 
+      - prometheus-node-exporter:
+          requires: [smoke-test]
